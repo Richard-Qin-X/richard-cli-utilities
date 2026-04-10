@@ -1,0 +1,32 @@
+name: C++ CI Pipeline
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  build-and-lint:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+
+    - name: Install Dependencies
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y cmake ninja-build clang-tidy clang-format
+
+    - name: Configure CMake
+      run: >
+        cmake -B build -G Ninja
+        -DCMAKE_BUILD_TYPE=Release
+        -DENABLE_CLANG_TIDY=ON
+
+    - name: Build and Run Clang-Tidy
+      run: cmake --build build
+
+    - name: Check Code Format
+      run: cmake --build build --target format-check
