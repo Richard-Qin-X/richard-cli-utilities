@@ -17,12 +17,13 @@
  */
 
 #include "rcli/core/license.h"
-#include <iostream>
-#include <string>
+
 #include <unistd.h>
 
-namespace rcli::core
-{
+#include <iostream>
+#include <string>
+
+namespace rcli::core {
 void init_interactive_module(const std::string& module_name) {
   if (isatty(STDOUT_FILENO) != 0) {
     std::cout
@@ -36,4 +37,4 @@ void init_interactive_module(const std::string& module_name) {
     std::cin.get();
   }
 }
-} // namespace rcli::core
+}  // namespace rcli::core

@@ -16,16 +16,14 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
- #pragma once
+#pragma once
 
- namespace rcli::core
- {
- void enable_raw_mode();
+namespace rcli::core {
+void enable_raw_mode();
 
- void disable_raw_mode();
+void disable_raw_mode();
 
- bool kbhit();
+bool kbhit();
 
- char get_key();
- } // namespace rcli::core
- 
+char get_key();
+}  // namespace rcli::core

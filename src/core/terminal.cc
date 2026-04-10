@@ -35,16 +35,17 @@ void show_cursor() { std::cout << "\033[?25h" << std::flush; }
 void clear_screen() { std::cout << "\033[2J\033[H" << std::flush; }
 
 int get_terminal_width() {
-  struct winsize window_size{};
+  struct winsize window_size {};
   // NOLINTNEXTLINE(cppcoreguidelines-pro-type-vararg)
-  if (ioctl(STDOUT_FILENO, TIOCGWINSZ, &window_size) == -1) { // NOLINT(misc-include-cleaner)
+  if (ioctl(STDOUT_FILENO, TIOCGWINSZ, &window_size) ==
+      -1) {  // NOLINT(misc-include-cleaner)
     return kDefaultWidth;
   }
   return window_size.ws_col;
 }
 
 int get_terminal_height() {
-  struct winsize window_size{};
+  struct winsize window_size {};
   // NOLINTNEXTLINE(cppcoreguidelines-pro-type-vararg)
   if (ioctl(STDOUT_FILENO, TIOCGWINSZ, &window_size) == -1) {
     return kDefaultHeight;

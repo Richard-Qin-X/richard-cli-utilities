@@ -16,14 +16,14 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
+#include <libgen.h>
 #include <unistd.h>  // POSIX execvp
 
-#include <cstddef>
 #include <array>
 #include <climits>
-#include <cstring>
-#include <libgen.h>
+#include <cstddef>
 #include <cstdio>
+#include <cstring>
 #include <iostream>
 #include <memory>
 #include <span>
@@ -34,7 +34,8 @@ void print_help() {
   std::cout << "rcli - Richard CLI Utilities\n\n"
             << "Usage: rcli <command> [args...]\n\n"
             << "  Copyright (C) 2026  Richard Qin\n"
-            << "This program comes with ABSOLUTELY NO WARRANTY; for details type `show w'.\n"
+            << "This program comes with ABSOLUTELY NO WARRANTY; for details "
+               "type `show w'.\n"
             << "This is free software, and you are welcome to redistribute it\n"
             << "under certain conditions; type `show c' for details.\n\n";
 }
@@ -103,7 +104,7 @@ int main(int argc, char** argv) {
       print_conditions();
       return 0;
     }
-    
+
     {
       std::cerr << "rcli error: Unknown show option '" << sub_command
                 << "'. Use 'w' or 'c'.\n";
@@ -111,16 +112,16 @@ int main(int argc, char** argv) {
     }
   }
 
-
   std::array<char, PATH_MAX> path_buffer{};
-  const ssize_t count = readlink("/proc/self/exe", path_buffer.data(), PATH_MAX - 1);
+  const ssize_t count =
+      readlink("/proc/self/exe", path_buffer.data(), PATH_MAX - 1);
   if (count == -1) {
     std::perror("rcli error: Failed to locate self");
     return 1;
   }
-    if (count >= 0 && static_cast<size_t>(count) < path_buffer.size()) {
-      path_buffer.at(static_cast<size_t>(count)) = '\0';
-    }
+  if (count >= 0 && static_cast<size_t>(count) < path_buffer.size()) {
+    path_buffer.at(static_cast<size_t>(count)) = '\0';
+  }
 
   const std::string exe_path(path_buffer.data());
   std::array<char, PATH_MAX> exe_path_copy{};
@@ -130,7 +131,8 @@ int main(int argc, char** argv) {
   const std::string target_binary = std::string(dir_path) + "/rcli-" + command;
 
   std::vector<char*> exec_args;
-  exec_args.push_back(const_cast<char*>(target_binary.c_str())); // NOLINT(cppcoreguidelines-pro-type-const-cast)
+  exec_args.push_back(const_cast<char*>(
+      target_binary.c_str()));  // NOLINT(cppcoreguidelines-pro-type-const-cast)
   for (size_t i = 2; i < static_cast<size_t>(argc); ++i) {
     exec_args.push_back(args[i]);
   }

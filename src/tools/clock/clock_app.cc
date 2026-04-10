@@ -28,44 +28,43 @@
 #include "rcli/core/terminal.h"
 
 namespace {
-std::atomic<bool> running{true}; // NOLINT(cppcoreguidelines-avoid-non-const-global-variables)
+std::atomic<bool> running{
+    true};  // NOLINT(cppcoreguidelines-avoid-non-const-global-variables)
 }
 
-void handle_sigint(int /* signal */) {
-    running = false;
-}
+void handle_sigint(int /* signal */) { running = false; }
 
 namespace {
 constexpr std::chrono::milliseconds kRefreshInterval{100};
 }
 
 int main() {
-    rcli::core::init_interactive_module("rcli-clock");
+  rcli::core::init_interactive_module("rcli-clock");
 
-    std::signal(SIGINT, handle_sigint);
-    rcli::core::hide_cursor();
+  std::signal(SIGINT, handle_sigint);
+  rcli::core::hide_cursor();
 
-    while (running) {
-        rcli::core::clear_screen();
-
-        auto now = std::chrono::system_clock::now();
-        const std::time_t time_t_now = std::chrono::system_clock::to_time_t(now);
-        std::tm local_time{};
-
-        if (localtime_r(&time_t_now, &local_time) != nullptr)
-        {
-            std::cout << "\n\n  ";
-        std::cout << std::setfill('0') << std::setw(2) << local_time.tm_hour << ":"
-                  << std::setfill('0') << std::setw(2) << local_time.tm_min << ":"
-                  << std::setfill('0') << std::setw(2) << local_time.tm_sec << "\n";
-
-        std::cout << std::flush;
-    }
-        std::this_thread::sleep_for(std::chrono::milliseconds(kRefreshInterval));
-    }
-
+  while (running) {
     rcli::core::clear_screen();
-    rcli::core::show_cursor();
-    
-    return 0;
+
+    auto now = std::chrono::system_clock::now();
+    const std::time_t time_t_now = std::chrono::system_clock::to_time_t(now);
+    std::tm local_time{};
+
+    if (localtime_r(&time_t_now, &local_time) != nullptr) {
+      std::cout << "\n\n  ";
+      std::cout << std::setfill('0') << std::setw(2) << local_time.tm_hour
+                << ":" << std::setfill('0') << std::setw(2) << local_time.tm_min
+                << ":" << std::setfill('0') << std::setw(2) << local_time.tm_sec
+                << "\n";
+
+      std::cout << std::flush;
+    }
+    std::this_thread::sleep_for(std::chrono::milliseconds(kRefreshInterval));
+  }
+
+  rcli::core::clear_screen();
+  rcli::core::show_cursor();
+
+  return 0;
 }

@@ -33,9 +33,9 @@ void handle_signal(int signal) {
 }
 
 void setup_signal_handlers() {
-  static_cast<void> (std::signal(SIGINT, handle_signal));
-  static_cast<void> (std::signal(SIGTERM, handle_signal));
+  static_cast<void>(std::signal(SIGINT, handle_signal));
+  static_cast<void>(std::signal(SIGTERM, handle_signal));
 
-  static_cast<void> (std::atexit([]() { show_cursor(); }));
+  static_cast<void>(std::atexit([]() { show_cursor(); }));
 }
 }  // namespace rcli::core

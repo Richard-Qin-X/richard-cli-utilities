@@ -29,7 +29,7 @@ int get_center_padding(int content_width) {
   const int term_width = get_terminal_width();
   if (content_width >= term_width) {
     return 0;
-}
+  }
   return (term_width - content_width) / 2;
 }
 

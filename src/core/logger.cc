@@ -17,11 +17,11 @@
  */
 
 #include "rcli/core/logger.h"
+
 #include <iostream>
 #include <string_view>
 
-namespace rcli::core
-{
+namespace rcli::core {
 constexpr std::string_view kColorReset = "\033[0m";
 constexpr std::string_view kColorRed = "\033[31m";
 constexpr std::string_view kColorGreen = "\033[32m";
@@ -47,4 +47,4 @@ void log_error(std::string_view message) {
   std::cerr << kStyleBold << kColorRed << "[ FAIL ] " << kColorReset << message
             << "\n";
 }
-} // namespace rcli::core
+}  // namespace rcli::core

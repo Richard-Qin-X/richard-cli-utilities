@@ -19,7 +19,6 @@
 #pragma once
 #include <string>
 
-namespace rcli::core
-{
-    void init_interactive_module(const std::string& module_name);
-} // namespace rcli
+namespace rcli::core {
+void init_interactive_module(const std::string& module_name);
+}  // namespace rcli::core

@@ -22,8 +22,8 @@
 #include <termios.h>
 #include <unistd.h>
 
-
-struct termios g_orig_termios{}; // NOLINT(cppcoreguidelines-avoid-non-const-global-variables)
+struct termios g_orig_termios {
+};  // NOLINT(cppcoreguidelines-avoid-non-const-global-variables)
 namespace rcli::core {
 
 void enable_raw_mode() {
@@ -37,7 +37,7 @@ void enable_raw_mode() {
 void disable_raw_mode() { tcsetattr(STDIN_FILENO, TCSAFLUSH, &g_orig_termios); }
 
 bool kbhit() {
-  struct timeval timeout = {0L, 0L}; // NOLINT(misc-include-cleaner)
+  struct timeval timeout = {0L, 0L};  // NOLINT(misc-include-cleaner)
   fd_set fds;
   FD_ZERO(&fds);
   FD_SET(STDIN_FILENO, &fds);
@@ -45,10 +45,10 @@ bool kbhit() {
 }
 
 char get_key() {
-  char ch {};
-  if (read(STDIN_FILENO, &ch, 1) == 1){
+  char ch{};
+  if (read(STDIN_FILENO, &ch, 1) == 1) {
     return ch;
-}
+  }
   return '\0';
 }
 }  // namespace rcli::core
